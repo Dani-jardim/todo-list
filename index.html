@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TODO-list</title>
+</head>
+<body>
+	<p class="">Lista de Tarefas</p>
+	<input type="text" id="AddNovoItem" value="">
+	<button onclick="addLista()" >Add</button>
+	<ul>
+		<li id="itemLista"></li>
+	</ul>
+	<script>
+		function addLista(){
+			var item = document.getElementById("AddNovoItem").value;
+			document.getElementById("itemLista").innerHTML = item;
+		}
+	</script>
+</body>
+</html>
