@@ -7,9 +7,20 @@
 		<title>TODO-list</title>
 	</head>
 	<body> 
-		<p class="">Lista de Tarefas</p>       
-		<input type="text" id="item">
-		<button onclick="addItemLista()">Add</button>
-		<ul id="lista"></ul>
+		<style>
+			.itemFeito{
+				color:red;
+				font-size: large;
+			}
+		</style>
+
+		<h1 class="">Lista de Tarefas</h1> 
+
+			<input type="text" id="item" placeholder="Nova Tarefa" required>
+			<button onclick="addItemLista()">Add</button>
+			<button onclick="feitoItem()">Feito</button>
+			<ul id="lista"></ul>	 
+		
+
 	</body>
 </html>
