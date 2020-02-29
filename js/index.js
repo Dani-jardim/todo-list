@@ -1,5 +1,5 @@
 function novoItem (){
-	
+
 	var ListaNode = document.createElement("li");
 	var inputItem = document.getElementById("itemLista").value;
 	var textoInput = document.createTextNode(inputItem);
@@ -20,7 +20,7 @@ function novoItem (){
 
 		
 	var btnOk = document.createElement("button"); // add o btn para apagar em cada novo item
-	var txtBtnOk = document.createTextNode("ok");
+	var txtBtnOk = document.createTextNode("feito");
 	btnOk.className = "feito";
 	btnOk.appendChild(txtBtnOk);
 	ListaNode.appendChild(btnOk);
@@ -29,7 +29,7 @@ function novoItem (){
 	for(var i=0; i< feito.length; i++){
 		feito[i].onclick = function(){
 			var div = this.parentElement;	
-			console.log("fooi");		
+			div.classList.toggle("feito");	
 		}
 	}
 
