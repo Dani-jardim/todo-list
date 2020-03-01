@@ -17,15 +17,14 @@ function novoItem (){
 	btn.className = "fechar"; // criar class depois
 	btn.appendChild(txtBtn);
 	ListaNode.appendChild(btn);
-
-		
+	
 	var btnOk = document.createElement("button"); // add o btn para apagar em cada novo item
 	var txtBtnOk = document.createTextNode("feito");
 	btnOk.className = "feito";
 	btnOk.appendChild(txtBtnOk);
 	ListaNode.appendChild(btnOk);
 
-	var feito = document.getElementsByClassName("feito"); // add classe feito para um item feito
+	var feito = document.getElementsByClassName("feito"); // add classe feito para um item feito/desfeito
 	for(var i=0; i< feito.length; i++){
 		feito[i].onclick = function(){
 			var div = this.parentElement;	
@@ -40,4 +39,22 @@ function novoItem (){
 			div.style.display = "none";
 		}
 	};
+
+	
+if(localStorage.itemLista){
+	document.getElementById("itemLista").value.localStorage.itemLista;
+}
+
+var salvarDados = function(){
+
+	var itemLista = document.getElementById("itemLista").value;
+
+
+	localStorage.setItem("itemLista", itemLista);
+
+};
+
+console.log(listaCompleta);
+
+document.onchange = salvarDados;
 };
