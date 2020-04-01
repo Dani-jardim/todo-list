@@ -54,12 +54,12 @@ function addItem(){
 	 dataLocal();
 };
 
-	function dataLocal() {
+	function dataLocal() { // definindo chave e valor LocalStorage
 		localStorage.setItem('itensSalvos', JSON.stringify(arrayItens));
 	}
 
 
-	function salvarLocal() {
+	function salvarLocal() { //salvando localStorage
 		var getData = localStorage.getItem('itensSalvos');
 		var items2 = JSON.parse(getData);
 
@@ -69,7 +69,7 @@ function addItem(){
 
 				li.appendChild(document.createTextNode(items2[i]));
 				ListaCompleta.appendChild(li);
-				li.setAttribute('id', 'list' + i);
+				li.setAttribute('id', 'lista' + i);
 
 		}
 }
