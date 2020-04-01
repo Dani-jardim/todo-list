@@ -1,60 +1,80 @@
-function novoItem (){
+var inputItem = document.getElementById("input_item");
+var ListaCompleta = document.getElementById("lista_completa");
+var arrayItens = [];
+var contador = 0;
 
-	var ListaNode = document.createElement("li");
-	var inputItem = document.getElementById("itemLista").value;
-	var textoInput = document.createTextNode(inputItem);
-	ListaNode.appendChild(textoInput);
-	if(inputItem === ""){
-		alert("Voce precisa digitar uma tarefa");
-	} 
-	else{
-		document.getElementById("listaCompleta").appendChild(ListaNode);
-	}
-	document.getElementById("itemLista").value = "";	//apagando a linha do input
+function addItem(){
 
-	var btn = document.createElement("button"); // add o btn para apagar em cada novo item
-	var txtBtn = document.createTextNode("X");
-	btn.className = "fechar"; // criar class depois
-	btn.appendChild(txtBtn);
-	ListaNode.appendChild(btn);
-	
-	var btnOk = document.createElement("button"); // add o btn para apagar em cada novo item
-	var txtBtnOk = document.createTextNode("feito");
-	btnOk.className = "feito";
-	btnOk.appendChild(txtBtnOk);
-	ListaNode.appendChild(btnOk);
+	var textoItem = inputItem.value;
+	var li = document.createElement("li");
 
-	var feito = document.getElementsByClassName("feito"); // add classe feito para um item feito/desfeito
-	for(var i=0; i< feito.length; i++){
-		feito[i].onclick = function(){
-			var div = this.parentElement;	
-			div.classList.toggle("feito");	
-		}
+	if (textoItem === ""){
+		alert("Digite uma tarefa");
+		return false;
 	}
 
-	var fechar = document.getElementsByClassName("fechar"); //add um display nome para esconder um item
-	for (var i = 0; i < fechar.length; i++) {
-		fechar[i].onclick = function() {
-			var div = this.parentElement;
-			div.style.display = "none";
-		}
-	};
+	 li.appendChild(document.createTextNode(textoItem));
+	 ListaCompleta.appendChild(li);
+	 li.setAttribute("id", "lista" + contador);
+	 arrayItens.push(inputItem.value);
+	 contador = contador + 1;
 
-	
-if(localStorage.itemLista){
-	document.getElementById("itemLista").value.localStorage.itemLista;
+	console.log(arrayItens);
+
+  document.getElementById("input_item").value = "";	//apagando a linha dentro ddo input
+	 
+	 var btn = document.createElement("button"); // add o btn X apagar em cada novo item
+	 var txtBtn = document.createTextNode("X");
+	 btn.className = "fechar"; // classe criada em arquivo estilos.css
+	 btn.appendChild(txtBtn);
+	 li.appendChild(btn);
+	 
+	 var btnOk = document.createElement("button"); // add o btn para item feito 
+	 var txtBtnOk = document.createTextNode("feito");
+	 btnOk.className = "feito"; // classe li.feito no arquivo estilos.css
+	 btnOk.appendChild(txtBtnOk);
+	 li.appendChild(btnOk);
+ 
+	 var feito = document.getElementsByClassName("feito"); // add classe feito para um item feito/desfeito TOGGLE
+	 for(var i=0; i< feito.length; i++){
+		 feito[i].onclick = function(){
+			 var div = this.parentElement;	
+			 div.classList.toggle("feito");	
+		 }
+	 };
+ 
+	 var fechar = document.getElementsByClassName("fechar"); //add um display none para esconder um item
+	 for (var i = 0; i < fechar.length; i++) {
+		 fechar[i].onclick = function() {
+			 var div = this.parentElement;
+			 div.style.display = "none";
+		 }
+	 };
+
+	 dataLocal();
+};
+
+	function dataLocal() {
+		localStorage.setItem('itensSalvos', JSON.stringify(arrayItens));
+	}
+
+
+	function salvarLocal() {
+		var getData = localStorage.getItem('itensSalvos');
+		var items2 = JSON.parse(getData);
+
+		for (var i = 0; i < items2.length; i++) {
+				var li = document.createElement('li');
+				arrayItens.push(items2[i]);
+
+				li.appendChild(document.createTextNode(items2[i]));
+				ListaCompleta.appendChild(li);
+				li.setAttribute('id', 'list' + i);
+
+		}
 }
 
-var salvarDados = function(){
 
-	var itemLista = document.getElementById("itemLista").value;
+window.onload = salvarLocal;
 
 
-	localStorage.setItem("itemLista", itemLista);
-
-};
-
-console.log(listaCompleta);
-
-document.onchange = salvarDados;
-};
