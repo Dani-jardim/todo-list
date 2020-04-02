@@ -54,6 +54,15 @@ function addItem(){
 	 dataLocal();
 };
 
+document.body.onkeydown = function (enter){ // add um item com a tecla ENTER
+	enter = enter || window.event;
+	var keyCode = enter.keyCode || enter.charCode;
+	if (keyCode === 13){
+		addItem();
+	}
+};
+
+
 	function dataLocal() { // definindo chave e valor LocalStorage
 		localStorage.setItem('itensSalvos', JSON.stringify(arrayItens));
 	}
@@ -61,20 +70,19 @@ function addItem(){
 
 	function salvarLocal() { //salvando localStorage
 		var getData = localStorage.getItem('itensSalvos');
-		var items2 = JSON.parse(getData);
+		var iten2 = JSON.parse(getData);
 
-		for (var i = 0; i < items2.length; i++) {
+		for (var i = 0; i < iten2.length; i++) {
 				var li = document.createElement('li');
-				arrayItens.push(items2[i]);
+				arrayItens.push(iten2[i]);
 
-				li.appendChild(document.createTextNode(items2[i]));
+				li.appendChild(document.createTextNode(iten2[i]));
 				ListaCompleta.appendChild(li);
 				li.setAttribute('id', 'lista' + i);
 
 		}
 }
 
-
-window.onload = salvarLocal;
+window.onload = salvarLocal; // qdo carregar a página executar salvarLocal
 
 
