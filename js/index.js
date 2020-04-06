@@ -1,9 +1,16 @@
+var data = {  //criando array de objetos com a lista e item completo
+	lista : [],
+	completo : []
+};
 
-document.getElementById("adicionar").addEventListener("click", function(){
+document.getElementById("adicionar").addEventListener("click", function(){ // ouvir o click e pegar o input
 	var value = document.getElementById("item").value;
 	if(value){
 		adicionarItem(value);
 		document.getElementById("item").value = " "; // zerar o valor do input
+
+		data.lista.push(value); // add valor em um array
+
 	}
 
 });
@@ -11,6 +18,15 @@ document.getElementById("adicionar").addEventListener("click", function(){
 function removerItem() {
   var item = this.parentNode.parentNode;
 	var irmao = item.parentNode;
+	var id = irmao.id;
+	var vIndex = item.innerText;
+
+	if(id === "todo"){
+		data.lista.splice(data.lista.indexOf(vIndex), 1);
+	}else{
+		data.completo.splice(data.lista.indexOf(vIndex), 1);
+
+	};
 	
 	irmao.removeChild(item);
 }
@@ -20,14 +36,25 @@ function ItemCompleto(){
 	var irmao = item.parentNode;
 	var id = irmao.id;
 
+	var vIndex = item.innerText; 
+
+	if(id === "lista"){
+		//indexOf() retorna o primeiro índice em que o elemento pode ser encontrado
+		data.lista.splice(data.lista.indexOf(vIndex), 1); // valor lista de arrays
+		data.completo.push(vIndex);
+	}else{
+		data.completo.splice(data.completo.indexOf(vIndex), 1); // valor lista de arrays
+		data.lista.push(vIndex);
+	};
+
+
 	var target;
 
 	if (id === "lista"){
 		target = document.getElementById("item_completo");
 	}else{
 		target = document.getElementById ("lista");
-
-	}
+	};
 	irmao.removeChild(item);
 	target.insertBefore(item, target.childNodes[0]);
 }
