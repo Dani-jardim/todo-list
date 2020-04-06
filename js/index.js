@@ -1,7 +1,27 @@
-var data = {  //criando array de objetos com a lista e item completo
-	lista : [],
-	completo : []
+// if (data){
+// 	localStorage.getItem("todoList");
+// }else{
+// 	JSON.parse(localStorage.getItem("todoList"));
+// }
+
+
+
+// var data =  {  //criando array de objetos com a lista e item completo
+// 	lista : [],
+// 	completo : []
+// };
+
+
+
+var data = (localStorage.getItem('todoList')) ? JSON.parse(localStorage.getItem('todoList')):{
+  lista: [],
+  completo: []
 };
+
+
+
+
+
 
 document.getElementById("adicionar").addEventListener("click", function(){ // ouvir o click e pegar o input
 	var value = document.getElementById("item").value;
@@ -10,10 +30,42 @@ document.getElementById("adicionar").addEventListener("click", function(){ // ou
 		document.getElementById("item").value = " "; // zerar o valor do input
 
 		data.lista.push(value); // add valor em um array
-
+		atualizarData()
 	}
 
 });
+
+function adicionarItem (value) {
+  adicionarItemDom(value);
+  document.getElementById('item').value = '';
+
+  data.lista.push(value);
+  atualizarData();
+}
+
+carregarLista();
+
+function carregarLista(){
+	if (!data.lista.length && !data.completo.length)
+	return;
+
+	for(var i = 0; i < data.lista.length; i++){
+		var value = data.lista[i];
+		adicionarItemDom(value);
+	};
+	for(var j = 0; j < data.completo.length; j++ ){
+		var value = data.completo[j];
+		adicionarItemDom(value, true);
+
+	}
+
+};
+
+function atualizarData(){
+	localStorage.setItem("todoList", JSON.stringify(data));
+
+}
+
 
 function removerItem() {
   var item = this.parentNode.parentNode;
@@ -29,6 +81,7 @@ function removerItem() {
 	};
 	
 	irmao.removeChild(item);
+	atualizarData();
 }
 
 function ItemCompleto(){
@@ -46,7 +99,7 @@ function ItemCompleto(){
 		data.completo.splice(data.completo.indexOf(vIndex), 1); // valor lista de arrays
 		data.lista.push(vIndex);
 	};
-
+	atualizarData();
 
 	var target;
 
@@ -60,8 +113,8 @@ function ItemCompleto(){
 }
 
 
-function adicionarItem(texto){
-	var lista = document.getElementById("lista");
+function adicionarItemDom(texto, completo){
+	var lista = (completo) ? document.getElementById("item_completo") : document.getElementById("lista");
 
 	var item = document.createElement("li");
 	item.innerText = texto;
@@ -86,10 +139,13 @@ function adicionarItem(texto){
 	
 	// ouvir o botao item completo
 	completo.addEventListener('click', ItemCompleto);
+	
 
 	botoes.appendChild(deletar);
 	botoes.appendChild(completo);
 	item.appendChild(botoes);
 
+	
 	lista.insertBefore(item, lista.childNodes[0]); // fazer a lista ordenar do mais recente para o mais antigo
+	
 };
