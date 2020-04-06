@@ -1,88 +1,68 @@
-var inputItem = document.getElementById("input_item");
-var ListaCompleta = document.getElementById("lista_completa");
-var arrayItens = [];
-var contador = 0;
 
-function addItem(){
-
-	var textoItem = inputItem.value;
-	var li = document.createElement("li");
-
-	if (textoItem === ""){
-		alert("Digite uma tarefa");
-		return false;
+document.getElementById("adicionar").addEventListener("click", function(){
+	var value = document.getElementById("item").value;
+	if(value){
+		adicionarItem(value);
+		document.getElementById("item").value = " "; // zerar o valor do input
 	}
 
-	 li.appendChild(document.createTextNode(textoItem));
-	 ListaCompleta.appendChild(li);
-	 li.setAttribute("id", "lista" + contador);
-	 arrayItens.push(inputItem.value);
-	 contador = contador + 1;
+});
 
-	console.log(arrayItens);
-
-  document.getElementById("input_item").value = "";	//apagando a linha dentro ddo input
-	 
-	 var btn = document.createElement("button"); // add o btn X apagar em cada novo item
-	 var txtBtn = document.createTextNode("X");
-	 btn.className = "fechar"; // classe criada em arquivo estilos.css
-	 btn.appendChild(txtBtn);
-	 li.appendChild(btn);
-	 
-	 var btnOk = document.createElement("button"); // add o btn para item feito 
-	 var txtBtnOk = document.createTextNode("feito");
-	 btnOk.className = "feito"; // classe li.feito no arquivo estilos.css
-	 btnOk.appendChild(txtBtnOk);
-	 li.appendChild(btnOk);
- 
-	 var feito = document.getElementsByClassName("feito"); // add classe feito para um item feito/desfeito TOGGLE
-	 for(var i=0; i< feito.length; i++){
-		 feito[i].onclick = function(){
-			 var div = this.parentElement;	
-			 div.classList.toggle("feito");	
-		 }
-	 };
- 
-	 var fechar = document.getElementsByClassName("fechar"); //add um display none para esconder um item
-	 for (var i = 0; i < fechar.length; i++) {
-		 fechar[i].onclick = function() {
-			 var div = this.parentElement;
-			 div.style.display = "none";
-		 }
-	 };
-
-	 dataLocal();
-};
-
-document.body.onkeydown = function (enter){ // add um item com a tecla ENTER
-	enter = enter || window.event;
-	var keyCode = enter.keyCode || enter.charCode;
-	if (keyCode === 13){
-		addItem();
-	}
-};
-
-
-	function dataLocal() { // definindo chave e valor LocalStorage
-		localStorage.setItem('itensSalvos', JSON.stringify(arrayItens));
-	}
-
-
-	function salvarLocal() { //salvando localStorage
-		var getData = localStorage.getItem('itensSalvos');
-		var iten2 = JSON.parse(getData);
-
-		for (var i = 0; i < iten2.length; i++) {
-				var li = document.createElement('li');
-				arrayItens.push(iten2[i]);
-
-				li.appendChild(document.createTextNode(iten2[i]));
-				ListaCompleta.appendChild(li);
-				li.setAttribute('id', 'lista' + i);
-
-		}
+function removerItem() {
+  var item = this.parentNode.parentNode;
+	var irmao = item.parentNode;
+	
+	irmao.removeChild(item);
 }
 
-window.onload = salvarLocal; // qdo carregar a página executar salvarLocal
+function ItemCompleto(){
+	var item = this.parentNode.parentNode;
+	var irmao = item.parentNode;
+	var id = irmao.id;
+
+	var target;
+
+	if (id === "lista"){
+		target = document.getElementById("item_completo");
+	}else{
+		target = document.getElementById ("lista");
+
+	}
+	irmao.removeChild(item);
+	target.insertBefore(item, target.childNodes[0]);
+}
 
 
+function adicionarItem(texto){
+	var lista = document.getElementById("lista");
+
+	var item = document.createElement("li");
+	item.innerText = texto;
+	
+	//criando botoes
+	var botoes = document.createElement("div"); 
+	botoes.classList.add("botoes");
+
+	// estados dos botoes
+	var deletar = document.createElement("button"); // botao deletar
+	deletar.classList.add("deletar_item") // criar css disso 
+	deletar.innerText = "X";
+	document.body.appendChild(deletar);
+
+	//remover item
+	deletar.addEventListener('click', removerItem);
+
+	var completo = document.createElement("button"); // botao item completo
+	completo.classList.add("item_completo")
+	completo.innerText = "Ok"
+	document.body.appendChild(completo);
+	
+	// ouvir o botao item completo
+	completo.addEventListener('click', ItemCompleto);
+
+	botoes.appendChild(deletar);
+	botoes.appendChild(completo);
+	item.appendChild(botoes);
+
+	lista.insertBefore(item, lista.childNodes[0]); // fazer a lista ordenar do mais recente para o mais antigo
+};

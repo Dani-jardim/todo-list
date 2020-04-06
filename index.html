@@ -7,14 +7,18 @@
 		<title>TO DO-list</title>
 	</head>
 	<body> 
-		<h1> To-do-list</h1>
-		<div id="Lista" class="">
-			<input type="text" id="input_item" name="" value="" placeholder="Escreva uma tarefa">
-			<button type="submit" onclick="addItem()" class="adicionaBtn">Adicionar</button>
-			<ul id="lista_completa">				
-			</ul>
+		<header>
+			<h1>Todo -list</h1>
+			<input type="text" placeholder="Adicionar Tarefa" id="item">
+			<button id="adicionar">Adicionar</button>
+		</header>
+
+		<div class="container">
+			<ul class="lista" id="lista"></ul>
+			<ul class="lista" id="item_completo"></ul>
 		</div>
+		
 	</body>
-	
+
 	<script type="text/javascript"  src="js/index.js"></script>
 </html>
